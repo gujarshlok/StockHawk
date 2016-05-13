@@ -1,4 +1,4 @@
-package com.sam_chordas.android.stockhawk.rest;
+package thedorkknightrises.stockhawk.rest;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -11,11 +11,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.sam_chordas.android.stockhawk.R;
-import com.sam_chordas.android.stockhawk.data.QuoteColumns;
-import com.sam_chordas.android.stockhawk.data.QuoteProvider;
-import com.sam_chordas.android.stockhawk.touch_helper.ItemTouchHelperAdapter;
-import com.sam_chordas.android.stockhawk.touch_helper.ItemTouchHelperViewHolder;
+import thedorkknightrises.stockhawk.R;
+import thedorkknightrises.stockhawk.data.QuoteColumns;
+import thedorkknightrises.stockhawk.data.QuoteProvider;
+import thedorkknightrises.stockhawk.touch_helper.ItemTouchHelperAdapter;
+import thedorkknightrises.stockhawk.touch_helper.ItemTouchHelperViewHolder;
 
 /**
  * Created by sam_chordas on 10/6/15.
@@ -28,7 +28,6 @@ public class QuoteCursorAdapter extends CursorRecyclerViewAdapter<QuoteCursorAda
 
   private static Context mContext;
   private static Typeface robotoLight;
-  private boolean isPercent;
   public QuoteCursorAdapter(Context context, Cursor cursor){
     super(context, cursor);
     mContext = context;
@@ -47,21 +46,20 @@ public class QuoteCursorAdapter extends CursorRecyclerViewAdapter<QuoteCursorAda
   public void onBindViewHolder(final ViewHolder viewHolder, final Cursor cursor){
     viewHolder.symbol.setText(cursor.getString(cursor.getColumnIndex("symbol")));
     viewHolder.bidPrice.setText(cursor.getString(cursor.getColumnIndex("bid_price")));
-    int sdk = Build.VERSION.SDK_INT;
     if (cursor.getInt(cursor.getColumnIndex("is_up")) == 1){
-      if (sdk < Build.VERSION_CODES.JELLY_BEAN){
-        viewHolder.change.setBackgroundDrawable(
+      if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN){
+        viewHolder.change.setBackground(
             mContext.getResources().getDrawable(R.drawable.percent_change_pill_green));
       }else {
-        viewHolder.change.setBackground(
+        viewHolder.change.setBackgroundDrawable(
             mContext.getResources().getDrawable(R.drawable.percent_change_pill_green));
       }
     } else{
-      if (sdk < Build.VERSION_CODES.JELLY_BEAN) {
-        viewHolder.change.setBackgroundDrawable(
-            mContext.getResources().getDrawable(R.drawable.percent_change_pill_red));
-      } else{
+      if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
         viewHolder.change.setBackground(
+                mContext.getResources().getDrawable(R.drawable.percent_change_pill_red));
+      } else{
+        viewHolder.change.setBackgroundDrawable(
             mContext.getResources().getDrawable(R.drawable.percent_change_pill_red));
       }
     }
