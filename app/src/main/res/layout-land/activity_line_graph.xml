@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="horizontal">
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="4"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="5"
         android:orientation="vertical">
 
         <lecho.lib.hellocharts.view.LineChartView
@@ -22,7 +21,9 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="4dp">
+            android:layout_marginBottom="4dp"
+            android:layout_marginEnd="4dp"
+            android:layout_marginStart="4dp">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -67,19 +68,15 @@
     </LinearLayout>
 
     <ScrollView
-        android:id="@+id/scrollview"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="2"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="3"
         android:background="#424242"
-        android:clipToPadding="false"
         android:elevation="16dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:clipChildren="false"
-            android:clipToPadding="false"
             android:orientation="vertical">
 
             <TextView
@@ -87,62 +84,46 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="@dimen/activity_horizontal_margin"
+                android:text="@string/name"
                 android:textAllCaps="true"
                 android:textColor="@android:color/white"
-                android:textStyle="bold"
-                tools:text="@string/name" />
+                android:textStyle="bold" />
 
-            <LinearLayout
+            <TextView
+                android:id="@+id/stock_symbol"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:padding="@dimen/activity_horizontal_margin"
+                android:text="@string/symbol"
+                android:textAllCaps="true"
+                android:textAppearance="@style/TextAppearance.AppCompat" />
 
-                <TextView
-                    android:id="@+id/stock_symbol"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:padding="@dimen/activity_horizontal_margin"
-                    android:textAllCaps="true"
-                    android:textAppearance="@style/TextAppearance.AppCompat"
-                    tools:text="@string/symbol" />
-
-                <TextView
-                    android:id="@+id/stock_price"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:padding="@dimen/activity_horizontal_margin"
-                    android:textAllCaps="true"
-                    android:textAppearance="@style/TextAppearance.AppCompat"
-                    tools:text="@string/price" />
-
-            </LinearLayout>
-
-            <LinearLayout
+            <TextView
+                android:id="@+id/stock_price"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:padding="@dimen/activity_horizontal_margin"
+                android:text="@string/price"
+                android:textAllCaps="true"
+                android:textAppearance="@style/TextAppearance.AppCompat" />
 
-                <TextView
-                    android:id="@+id/stock_change"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:padding="@dimen/activity_horizontal_margin"
-                    android:textAllCaps="true"
-                    android:textAppearance="@style/TextAppearance.AppCompat"
-                    tools:text="@string/change" />
+            <TextView
+                android:id="@+id/stock_change"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/activity_horizontal_margin"
+                android:text="@string/change"
+                android:textAllCaps="true"
+                android:textAppearance="@style/TextAppearance.AppCompat" />
 
-                <TextView
-                    android:id="@+id/stock_change_perc"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:padding="@dimen/activity_horizontal_margin"
-                    android:textAllCaps="true"
-                    android:textAppearance="@style/TextAppearance.AppCompat"
-                    tools:text="@string/change_perc" />
-
-            </LinearLayout>
+            <TextView
+                android:id="@+id/stock_change_perc"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/activity_horizontal_margin"
+                android:text="@string/change_perc"
+                android:textAllCaps="true"
+                android:textAppearance="@style/TextAppearance.AppCompat" />
 
         </LinearLayout>
 

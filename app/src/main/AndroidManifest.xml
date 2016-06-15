@@ -28,17 +28,22 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity android:name=".ui.Detail" />
+
         <service android:name="thedorkknightrises.stockhawk.service.StockTaskService"
-            android:permission="com.google.android.gms.permission.BIND_NETWORK_TASK_SERVICE"
-            android:exported="true">
+            android:exported="true"
+            android:permission="com.google.android.gms.permission.BIND_NETWORK_TASK_SERVICE">
             <intent-filter>
                 <action android:name="com.google.android.gms.gcm.ACTION_TASK_READY"/>
             </intent-filter>
         </service>
+
         <service android:name="thedorkknightrises.stockhawk.service.StockIntentService" />
+
         <provider
-            android:authorities="thedorkknightrises.stockhawk.data.QuoteProvider"
             android:name=".data.generated.QuoteProvider"
+            android:authorities="thedorkknightrises.stockhawk.data.QuoteProvider"
             android:exported="false"/>
 
     </application>

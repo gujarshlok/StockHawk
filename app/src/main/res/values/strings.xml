@@ -1,13 +1,30 @@
 <resources>
-  <string name="app_name">Stock Hawk</string>
+    <string name="app_name">Stock Hawk</string>
 
-  <string name="action_example">Example action</string>
+    <string name="action_example">Example action</string>
 
-  <string name="action_settings">Settings</string>
-  <string name="action_change_units">Change Units</string>
-  <string name="symbol_search">Symbol Search</string>
-  <string name="content_test">Search for a Stock Symbol</string>
-  <string name="input_hint">FB</string>
-  <string name="input_prefill"></string>
-  <string name="network_toast">Uh-oh! This app requires an internet connection</string>
+    <string name="action_settings">Settings</string>
+    <string name="action_change_units">Change Units</string>
+    <string name="symbol_search">Symbol Search</string>
+    <string name="content_test">Search for a Stock Symbol</string>
+    <string name="input_hint">FB</string>
+    <string name="input_prefill"></string>
+    <string name="network_toast">Uh-oh! This app requires an internet connection</string>
+    <string name="fab_error">Internet connection is required to add new stocks</string>
+    <string name="fail">Failed to add stock</string>
+    <string name="error">Failed to connect to server</string>
+    <string name="conn">Connection restored</string>
+    <string name="no_conn">Lost connection to server</string>
+    <string name="refresh">Refresh</string>
+
+    <string name="name">Stock Details</string>
+    <string name="symbol">Symbol</string>
+    <string name="price">Bid Price</string>
+    <string name="change">Change (USD)</string>
+    <string name="change_perc">% Change</string>
+    <string name="chart_text">Price of stock over:\t</string>
+    <string name="one">1m</string>
+    <string name="six">6m</string>
+    <string name="year">1y</string>
+
 </resources>
