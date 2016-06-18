@@ -2,21 +2,24 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="80dp"
-    android:background="#424242"
+    android:layout_height="64dp"
+    android:background="#aa424242"
     android:baselineAligned="false"
     android:elevation="4dp"
     android:gravity="center_vertical"
     android:orientation="horizontal"
-    android:paddingLeft="16dp"
-    android:paddingRight="16dp"
-    android:paddingEnd="16dp"
-    android:paddingStart="16dp">
+    android:paddingLeft="4dp"
+    android:paddingRight="4dp"
+    android:id="@+id/list_item"
+    android:paddingEnd="4dp"
+    android:paddingStart="4dp">
 
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_weight="1"
+        android:layout_weight="3"
+        android:paddingLeft="4dp"
+        android:paddingRight="4dp"
         android:gravity="start|center_vertical"
         android:orientation="vertical">
 
@@ -33,14 +36,14 @@
             android:layout_height="wrap_content"
             android:ellipsize="end"
             android:gravity="start"
-            android:maxLines="2"
+            android:maxLines="1"
             tools:text="Alphabet Inc." />
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
+        android:layout_weight="4"
         android:gravity="end">
 
         <TextView
@@ -61,7 +64,7 @@
             android:paddingLeft="3dp"
             android:paddingRight="3dp"
             tools:text="100%"
-            android:paddingStart="3dp"
-            android:paddingEnd="3dp" />
+            android:paddingEnd="3dp"
+            android:paddingStart="3dp" />
     </LinearLayout>
 </LinearLayout>

@@ -23,20 +23,20 @@ import thedorkknightrises.stockhawk.ui.Detail;
  */
 public class StockHistory extends AsyncTask<Void, Void, ArrayList> {
     private String LOG_TAG = StockHistory.class.getSimpleName();
-    private OkHttpClient client = new OkHttpClient();
-    private Context mContext;
-    private String range;
-    private ArrayList array;
-    private String urlString;
-    private String URL_START = "http://chartapi.finance.yahoo.com/instrument/1.0/";
-    private String URL_SECTION = "/chartdata;type=quote;range=";
-    private String URL_END = "/json";
+    private final OkHttpClient client = new OkHttpClient();
+    private final Context mContext;
+    private final String range;
+    private final ArrayList array;
+    private final String urlString;
 
     public StockHistory(Context context, String symbol) {
         mContext = context;
         this.array = new ArrayList();
         SharedPreferences pref = mContext.getSharedPreferences("Prefs", Context.MODE_PRIVATE);
         range = pref.getString("range", "1m");
+        String URL_END = "/json";
+        String URL_SECTION = "/chartdata;type=quote;range=";
+        String URL_START = "http://chartapi.finance.yahoo.com/instrument/1.0/";
         urlString = URL_START + symbol + URL_SECTION + range + URL_END;
 
     }

@@ -47,25 +47,20 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
      */
 
     private static final int CURSOR_LOADER_ID = 0;
-    public static android.support.design.widget.CoordinatorLayout coordinatorLayout;
-    public static SwipeRefreshLayout swipeRefreshLayout;
-    public BroadcastReceiver receiver;
+    private static android.support.design.widget.CoordinatorLayout coordinatorLayout;
+    private static SwipeRefreshLayout swipeRefreshLayout;
+    private BroadcastReceiver receiver;
     /**
      * Used to store the last screen title. For use in {@link #restoreActionBar()}.
      */
     private CharSequence mTitle;
     private Intent mServiceIntent;
-    private ItemTouchHelper mItemTouchHelper;
     private QuoteCursorAdapter mCursorAdapter;
     private Context mContext;
     private Cursor mCursor;
 
     public static android.support.design.widget.CoordinatorLayout getCoordinatorLayout() {
         return coordinatorLayout;
-    }
-
-    public static SwipeRefreshLayout getSwipeRefreshLayout() {
-        return swipeRefreshLayout;
     }
 
     public static Boolean isConnected(Context context) {
@@ -77,7 +72,7 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
                 activeNetwork.isConnectedOrConnecting();
     }
 
-    public void update() {
+    private void update() {
         // Run the initialize task service so that some stocks appear upon an empty database
         mServiceIntent.putExtra("tag", "init");
         startService(mServiceIntent);
@@ -111,8 +106,6 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
                 new RecyclerViewItemClickListener.OnItemClickListener() {
                     @Override
                     public void onItemClick(View v, int position) {
-                        //TODO:
-                        // do something on item click
                         mCursor.moveToPosition(position);
                         Intent i = new Intent(MyStocksActivity.this, Detail.class);
                         i.putExtra("name", mCursor.getString(2));
@@ -141,7 +134,7 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
         }
 
         ItemTouchHelper.Callback callback = new SimpleItemTouchHelperCallback(mCursorAdapter);
-        mItemTouchHelper = new ItemTouchHelper(callback);
+        ItemTouchHelper mItemTouchHelper = new ItemTouchHelper(callback);
         mItemTouchHelper.attachToRecyclerView(recyclerView);
 
         mTitle = getTitle();
@@ -204,7 +197,7 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
         super.onPause();
     }
 
-    public void restoreActionBar() {
+    private void restoreActionBar() {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
         actionBar.setDisplayShowTitleEnabled(true);
@@ -224,11 +217,6 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
 
         if (id == R.id.action_change_units) {
             // this is for changing stock changes from percent value to dollar value
@@ -286,6 +274,7 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
                                 mServiceIntent.putExtra("symbol", input.toString());
                                 startService(mServiceIntent);
                             }
+                            c.close();
                         }
                     })
                     .show();

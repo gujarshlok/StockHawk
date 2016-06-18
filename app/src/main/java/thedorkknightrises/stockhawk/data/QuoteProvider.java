@@ -13,7 +13,7 @@ import net.simonvt.schematic.annotation.TableEndpoint;
 public class QuoteProvider {
   public static final String AUTHORITY = "thedorkknightrises.stockhawk.data.QuoteProvider";
 
-  static final Uri BASE_CONTENT_URI = Uri.parse("content://" + AUTHORITY);
+  private static final Uri BASE_CONTENT_URI = Uri.parse("content://" + AUTHORITY);
 
   interface Path{
     String QUOTES = "quotes";

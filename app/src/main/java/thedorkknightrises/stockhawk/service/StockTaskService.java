@@ -32,11 +32,11 @@ import thedorkknightrises.stockhawk.ui.MyStocksActivity;
  * and is used for the initialization and adding task as well.
  */
 public class StockTaskService extends GcmTaskService{
-    private String LOG_TAG = StockTaskService.class.getSimpleName();
+    private final String LOG_TAG = StockTaskService.class.getSimpleName();
 
-    private OkHttpClient client = new OkHttpClient();
+    private final OkHttpClient client = new OkHttpClient();
     private Context mContext;
-    private StringBuilder mStoredSymbols = new StringBuilder();
+    private final StringBuilder mStoredSymbols = new StringBuilder();
     private boolean isUpdate;
 
     public StockTaskService() {
@@ -46,7 +46,7 @@ public class StockTaskService extends GcmTaskService{
         mContext = context;
     }
 
-    String fetchData(String url) throws IOException {
+    private String fetchData(String url) throws IOException {
         Request request = new Request.Builder()
                 .url(url)
                 .build();
@@ -75,7 +75,7 @@ public class StockTaskService extends GcmTaskService{
             initQueryCursor = mContext.getContentResolver().query(QuoteProvider.Quotes.CONTENT_URI,
                     new String[]{"Distinct " + QuoteColumns.SYMBOL}, null,
                     null, null);
-            if (initQueryCursor.getCount() == 0 || initQueryCursor == null) {
+            if (initQueryCursor.getCount() == 0) {
                 // Init task. Populates DB with quotes for the symbols seen below
                 try {
                     urlStringBuilder.append(
@@ -83,7 +83,7 @@ public class StockTaskService extends GcmTaskService{
                 } catch (UnsupportedEncodingException e) {
                     e.printStackTrace();
                 }
-            } else if (initQueryCursor != null) {
+            } else {
                 DatabaseUtils.dumpCursor(initQueryCursor);
                 initQueryCursor.moveToFirst();
                 for (int i = 0; i < initQueryCursor.getCount(); i++) {
@@ -116,31 +116,27 @@ public class StockTaskService extends GcmTaskService{
         String getResponse;
         int result = GcmNetworkManager.RESULT_FAILURE;
 
-        if (urlStringBuilder != null) {
-            urlString = urlStringBuilder.toString();
+        urlString = urlStringBuilder.toString();
+        try {
+            getResponse = fetchData(urlString);
+            result = GcmNetworkManager.RESULT_SUCCESS;
             try {
-                getResponse = fetchData(urlString);
-                result = GcmNetworkManager.RESULT_SUCCESS;
-                try {
-                    ContentValues contentValues = new ContentValues();
-                    // update ISCURRENT to 0 (false) so new data is current
-                    if (isUpdate) {
-                        contentValues.put(QuoteColumns.ISCURRENT, 0);
-                        mContext.getContentResolver().update(QuoteProvider.Quotes.CONTENT_URI, contentValues,
-                                null, null);
-                    }
-                    mContext.getContentResolver().applyBatch(QuoteProvider.AUTHORITY,
-                            Utils.quoteJsonToContentVals(getResponse));
-                } catch (RemoteException | OperationApplicationException | NumberFormatException e) {
-                    Snackbar.make(MyStocksActivity.getCoordinatorLayout(), R.string.fail, Snackbar.LENGTH_LONG).show();
-                    Log.e(LOG_TAG, "Error applying batch insert", e);
+                ContentValues contentValues = new ContentValues();
+                // update ISCURRENT to 0 (false) so new data is current
+                if (isUpdate) {
+                    contentValues.put(QuoteColumns.ISCURRENT, 0);
+                    mContext.getContentResolver().update(QuoteProvider.Quotes.CONTENT_URI, contentValues,
+                            null, null);
                 }
-            } catch (IOException e) {
-                Snackbar.make(MyStocksActivity.getCoordinatorLayout(), R.string.error, Snackbar.LENGTH_LONG).show();
-                e.printStackTrace();
+                mContext.getContentResolver().applyBatch(QuoteProvider.AUTHORITY,
+                        Utils.quoteJsonToContentVals(getResponse));
+            } catch (RemoteException | OperationApplicationException | NumberFormatException e) {
+                Snackbar.make(MyStocksActivity.getCoordinatorLayout(), R.string.fail, Snackbar.LENGTH_LONG).show();
+                Log.e(LOG_TAG, "Error applying batch insert", e);
             }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-
         return result;
     }
 

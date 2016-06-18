@@ -3,7 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:id="@+id/detail_layout">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -21,53 +22,27 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="4dp">
+            android:layout_height="wrap_content">
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
+                android:layout_weight="1"
                 android:layout_height="match_parent"
-                android:gravity="center_vertical"
-                android:paddingLeft="4dp"
-                android:paddingRight="4dp"
+                android:gravity="center"
                 android:text="@string/chart_text"
                 android:textAllCaps="true" />
 
-            <Button
-                android:id="@+id/one"
+            <Spinner
+                android:id="@+id/spinner_range"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:background="#424242"
-                android:onClick="onButtonClick"
-                android:paddingBottom="2dp"
-                android:text="@string/one" />
+                android:layout_height="wrap_content" />
 
-            <Button
-                android:id="@+id/six"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="#424242"
-                android:onClick="onButtonClick"
-                android:paddingBottom="2dp"
-                android:text="@string/six" />
-
-            <Button
-                android:id="@+id/year"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="#424242"
-                android:onClick="onButtonClick"
-                android:paddingBottom="2dp"
-                android:text="@string/year" />
         </LinearLayout>
 
     </LinearLayout>
 
     <ScrollView
-        android:id="@+id/scrollview"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="2"

@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="thedorkknightrises.stockhawk" >
+    package="thedorkknightrises.stockhawk">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
 
@@ -10,41 +11,56 @@
         android:name="com.google.android.gcm.demo.permission.C2D_MESSAGE"
         android:protectionLevel="signature" />
 
-    <uses-permission
-        android:name="com.google.android.gcm.demo.permission.C2D_MESSAGE" />
+    <uses-permission android:name="com.google.android.gcm.demo.permission.C2D_MESSAGE" />
 
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
-
+        android:theme="@style/AppTheme"
+        android:supportsRtl="true">
+        <meta-data android:name="com.google.android.gms.version" android:value="@integer/google_play_services_version" />
         <activity
-            android:name="thedorkknightrises.stockhawk.ui.MyStocksActivity"
-            android:label="@string/app_name" >
+            android:name=".ui.MyStocksActivity"
+            android:label="@string/app_name"
+            android:launchMode="singleInstance">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".ui.Detail"
+            android:label="@string/name" />
 
-        <activity android:name=".ui.Detail" />
-
-        <service android:name="thedorkknightrises.stockhawk.service.StockTaskService"
+        <service
+            android:name=".service.StockTaskService"
             android:exported="true"
             android:permission="com.google.android.gms.permission.BIND_NETWORK_TASK_SERVICE">
             <intent-filter>
-                <action android:name="com.google.android.gms.gcm.ACTION_TASK_READY"/>
+                <action android:name="com.google.android.gms.gcm.ACTION_TASK_READY" />
             </intent-filter>
         </service>
-
-        <service android:name="thedorkknightrises.stockhawk.service.StockIntentService" />
+        <service android:name=".service.StockIntentService" />
 
         <provider
-            android:name=".data.generated.QuoteProvider"
+            android:name="thedorkknightrises.stockhawk.data.generated.QuoteProvider"
             android:authorities="thedorkknightrises.stockhawk.data.QuoteProvider"
-            android:exported="false"/>
+            android:exported="true" />
+
+        <receiver android:name=".widget.AppWidget">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/app_widget_info" />
+        </receiver>
+
+        <service android:name=".widget.WidgetService"
+            android:permission="android.permission.BIND_REMOTEVIEWS" />
 
     </application>
 
