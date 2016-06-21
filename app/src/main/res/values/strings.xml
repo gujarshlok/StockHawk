@@ -20,6 +20,7 @@
     <string name="change">Change (USD)</string>
     <string name="change_perc">Change (%)</string>
     <string name="chart_text">Price of stock over:\t</string>
+    <string name="change_range">Change range of graph</string>
     <string name="one_ex">1 month</string>
     <string name="six_ex">6 month</string>
     <string name="year_ex">1 year</string>

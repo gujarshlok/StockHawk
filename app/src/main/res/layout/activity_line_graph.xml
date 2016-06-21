@@ -36,6 +36,7 @@
                 android:id="@+id/spinner_range"
                 android:layout_width="0dp"
                 android:layout_weight="1"
+                android:contentDescription="@string/change_range"
                 android:layout_height="wrap_content" />
 
         </LinearLayout>
