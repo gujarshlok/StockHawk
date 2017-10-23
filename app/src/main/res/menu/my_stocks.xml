@@ -7,4 +7,8 @@
       android:icon="@drawable/ic_attach_money_white_24dp"
       android:orderInCategory="99"
       app:showAsAction="ifRoom"/>
+  <item
+      android:id="@+id/sign_out_menu"
+      android:title="sign_out"
+      app:showAsAction="never"/>
 </menu>

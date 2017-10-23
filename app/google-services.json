@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "578880879868",
+    "firebase_url": "https://stockhawk-94173.firebaseio.com",
+    "project_id": "stockhawk-94173",
+    "storage_bucket": "stockhawk-94173.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:578880879868:android:d7fcd5c553358988",
+        "android_client_info": {
+          "package_name": "thedorkknightrises.stockhawk"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "578880879868-jd0t3iu6jk8c9047jprtjcrduklnl42p.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "thedorkknightrises.stockhawk",
+            "certificate_hash": "55cc8f6a33d48df5d265e69e23daf137cbc5db0b"
+          }
+        },
+        {
+          "client_id": "578880879868-74ijnlnjejl1fmsiomd9a653im96mjqo.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB3ZJZsHL1uRQKpc51CMJwA-MsjHAnMSp0"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "578880879868-74ijnlnjejl1fmsiomd9a653im96mjqo.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -26,8 +26,8 @@
 
             <TextView
                 android:layout_width="0dp"
-                android:layout_weight="1"
                 android:layout_height="match_parent"
+                android:layout_weight="1"
                 android:gravity="center"
                 android:text="@string/chart_text"
                 android:textAllCaps="true" />
@@ -35,9 +35,9 @@
             <Spinner
                 android:id="@+id/spinner_range"
                 android:layout_width="0dp"
+                android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:contentDescription="@string/change_range"
-                android:layout_height="wrap_content" />
+                android:contentDescription="@string/change_range" />
 
         </LinearLayout>
 
@@ -57,16 +57,27 @@
             android:clipChildren="false"
             android:clipToPadding="false"
             android:orientation="vertical">
-
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
             <TextView
                 android:id="@+id/stock_name"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:padding="@dimen/activity_horizontal_margin"
+                android:layout_weight="1"
+                android:paddingLeft="20dp"
+                android:paddingRight="200dp"
                 android:textAllCaps="true"
                 android:textColor="@android:color/white"
                 android:textStyle="bold"
                 tools:text="@string/name" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="10000$"
+                android:id="@+id/money"/>
+</LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -91,7 +102,6 @@
                     android:textAllCaps="true"
                     android:textAppearance="@style/TextAppearance.AppCompat"
                     tools:text="@string/price" />
-
             </LinearLayout>
 
             <LinearLayout
@@ -117,7 +127,59 @@
                     android:textAllCaps="true"
                     android:textAppearance="@style/TextAppearance.AppCompat"
                     tools:text="@string/change_perc" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
+                <EditText
+                    android:id="@+id/share_bought"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:padding="@dimen/activity_horizontal_margin"
+                    android:textAllCaps="true"
+                    android:hint="Enter no. of shares"
+                    android:inputType="number"
+                    android:textAppearance="@style/TextAppearance.AppCompat"
+                    />
+
+                <Button
+                    android:id="@+id/purchase_button"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:padding="@dimen/activity_horizontal_margin"
+                    android:textAllCaps="true"
+                    android:textAppearance="@style/TextAppearance.AppCompat"
+                    android:text="BUY" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/share_sold"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:padding="@dimen/activity_horizontal_margin"
+                    android:textAllCaps="true"
+                    android:hint="Enter no. of shares"
+                    android:inputType="number"
+                    android:textAppearance="@style/TextAppearance.AppCompat"
+                    />
+
+                <Button
+                    android:id="@+id/sell_button"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:padding="@dimen/activity_horizontal_margin"
+                    android:textAllCaps="true"
+                    android:textAppearance="@style/TextAppearance.AppCompat"
+                    android:text="SELL" />
             </LinearLayout>
 
         </LinearLayout>

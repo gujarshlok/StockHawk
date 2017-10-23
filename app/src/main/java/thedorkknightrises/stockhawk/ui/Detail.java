@@ -5,10 +5,13 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -27,7 +30,13 @@ import thedorkknightrises.stockhawk.service.StockHistory;
  */
 public class Detail extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
     private static LineChartView lineChartView;
+    private EditText share_bought,share_sold;
     private String symbol;
+    private String share_price_bought,share_price_sold;
+    private float price_product,number_of_shares_bought=0,number_of_shares_sold=0;
+    public static float customer_wallet=10000;
+    private Button purchase_button,sell_button;
+    private TextView money;
 
     public static void updateChart(ArrayList arrayList, Context context) {
 
@@ -50,7 +59,11 @@ public class Detail extends AppCompatActivity implements AdapterView.OnItemSelec
         setContentView(R.layout.activity_line_graph);
 
         lineChartView = (LineChartView) findViewById(R.id.linechart);
-
+        share_bought=(EditText)findViewById(R.id.share_bought);
+        share_sold=(EditText)findViewById(R.id.share_sold);
+        money=(TextView)findViewById(R.id.money);
+        purchase_button=(Button)findViewById(R.id.purchase_button);
+        sell_button=(Button)findViewById(R.id.sell_button);
         Bundle bundle = getIntent().getExtras();
         String name = bundle.getString("name", getResources().getString(R.string.name));
         symbol = bundle.getString("symbol", "-");
@@ -58,6 +71,9 @@ public class Detail extends AppCompatActivity implements AdapterView.OnItemSelec
         new StockHistory(getApplicationContext(), symbol).execute();
 
         String price = getResources().getString(R.string.price) + ":\t" + bundle.getString("price", "-");
+        String price1=bundle.getString("price","-");
+        Log.e("Tag",price1);
+        price_product=Float.parseFloat(price1);
         String change = getResources().getString(R.string.change) + ":\t" + bundle.getString("change", "-");
         String perc = getResources().getString(R.string.change_perc) + ":\t" + bundle.getString("perc", "-");
 
@@ -72,7 +88,42 @@ public class Detail extends AppCompatActivity implements AdapterView.OnItemSelec
 
         Spinner sp= (Spinner) findViewById(R.id.spinner_range);
         sp.setOnItemSelectedListener(this);
-
+        purchase_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                share_price_bought=share_bought.getText().toString();
+                number_of_shares_bought=Float.parseFloat(share_price_bought);
+                if(customer_wallet<price_product*number_of_shares_bought)
+                {
+                    Toast.makeText(getApplicationContext(),"Insufficient Balance",Toast.LENGTH_SHORT).show();
+                }
+                else
+                {
+                    customer_wallet=customer_wallet-price_product*number_of_shares_bought;
+                    String customer_wallet2=Float.toString(customer_wallet);
+                    Toast.makeText(getApplicationContext(),"Purchase Successful",Toast.LENGTH_SHORT).show();
+                    money.setText(customer_wallet2);
+                }
+            }
+        });
+        sell_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                share_price_sold=share_sold.getText().toString();
+                number_of_shares_sold=Float.parseFloat(share_price_sold);
+                if(number_of_shares_sold>number_of_shares_bought)
+                {
+                    Toast.makeText(getApplicationContext(), "Haven't bought that many shares", Toast.LENGTH_SHORT).show();
+                }
+                else
+                {
+                    customer_wallet=customer_wallet+price_product*number_of_shares_sold;
+                    String customer_wallet3=Float.toString(customer_wallet);
+                    Toast.makeText(getApplicationContext(),"Sold Successfully",Toast.LENGTH_SHORT).show();
+                    money.setText(customer_wallet3);
+                }
+            }
+        });
         ArrayList<String> elements= new ArrayList<>();
         elements.add(getString(R.string.one_ex));
         elements.add(getString(R.string.six_ex));

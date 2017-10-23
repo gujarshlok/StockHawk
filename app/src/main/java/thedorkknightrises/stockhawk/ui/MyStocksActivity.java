@@ -11,6 +11,7 @@ import android.database.Cursor;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
@@ -26,9 +27,12 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.firebase.ui.auth.AuthUI;
 import com.google.android.gms.gcm.GcmNetworkManager;
 import com.google.android.gms.gcm.PeriodicTask;
 import com.google.android.gms.gcm.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import thedorkknightrises.stockhawk.R;
 import thedorkknightrises.stockhawk.data.QuoteColumns;
@@ -59,6 +63,13 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
     private Context mContext;
     private Cursor mCursor;
 
+    public static final int RC_SIGN_IN=1;
+    public static final String ANONYMOUS = "anonymous";
+    private String mUsername;
+
+    private FirebaseAuth mFirebaseAuth;
+    private FirebaseAuth.AuthStateListener mAuthStateListener;
+
     public static android.support.design.widget.CoordinatorLayout getCoordinatorLayout() {
         return coordinatorLayout;
     }
@@ -82,14 +93,35 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mContext = this;
-
         setContentView(R.layout.activity_my_stocks);
+        mUsername = ANONYMOUS;
 
         coordinatorLayout = (android.support.design.widget.CoordinatorLayout) findViewById(R.id.coordinatorLayout);
-
+        mFirebaseAuth=FirebaseAuth.getInstance();
         mServiceIntent = new Intent(getApplicationContext(), StockIntentService.class);
         // The intent service is for executing immediate pulls from the Yahoo API
         // GCMTaskService can only schedule tasks, they cannot execute immediately
+
+        mAuthStateListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+
+                FirebaseUser user= firebaseAuth.getCurrentUser();
+                if(user!=null)
+                {
+                    Toast.makeText(MyStocksActivity.this,"You're signed in",Toast.LENGTH_SHORT).show();
+                    //onSignedInInitialize(user.getDisplayName());
+                }
+                else
+                {
+                    startActivityForResult(AuthUI.getInstance()
+                            .createSignInIntentBuilder()
+                            .setIsSmartLockEnabled(false)
+                            .setProviders(AuthUI.EMAIL_PROVIDER,AuthUI.GOOGLE_PROVIDER)
+                            .build(),RC_SIGN_IN);
+                }
+            }
+        };
         if (savedInstanceState == null) {
             if (isConnected(this))
                 update();
@@ -189,12 +221,16 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
             }
         };
         registerReceiver(receiver, i);
+        mFirebaseAuth.addAuthStateListener(mAuthStateListener);
     }
 
     @Override
     protected void onPause() {
         unregisterReceiver(receiver);
         super.onPause();
+        if (mAuthStateListener != null) {
+            mFirebaseAuth.removeAuthStateListener(mAuthStateListener);
+        }
     }
 
     private void restoreActionBar() {
@@ -211,20 +247,36 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
         return true;
     }
 
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//        // Handle action bar item clicks here. The action bar will
+//        // automatically handle clicks on the Home/Up button, so long
+//        // as you specify a parent activity in AndroidManifest.xml.
+//
+//        switch (item.getItemId())
+//        {
+//            case R.id.sign_out_menu:
+//                AuthUI.getInstance().signOut(this);
+//                return true;
+//
+//            default:
+//                return super.onOptionsItemSelected(item);
+//        }
+//    }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        if (id == R.id.action_change_units) {
-            // this is for changing stock changes from percent value to dollar value
-            Utils.showPercent = !Utils.showPercent;
-            this.getContentResolver().notifyChange(QuoteProvider.Quotes.CONTENT_URI, null);
+        switch (item.getItemId())
+        {
+            case R.id.sign_out_menu:
+                AuthUI.getInstance().signOut(this);
+                return true;
+            case R.id.action_change_units:
+                Utils.showPercent = !Utils.showPercent;
+                this.getContentResolver().notifyChange(QuoteProvider.Quotes.CONTENT_URI, null);
+                return super.onOptionsItemSelected(item);
+            default:
+                return super.onOptionsItemSelected(item);
         }
-
-        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -254,7 +306,7 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
             new MaterialDialog.Builder(mContext).title(R.string.symbol_search)
                     .content(R.string.content_test)
                     .inputType(InputType.TYPE_CLASS_TEXT)
-                    .input(R.string.input_hint, R.string.input_prefill, new MaterialDialog.InputCallback() {
+                    .input("FB", "Search for a stock", new MaterialDialog.InputCallback() {
                         @Override
                         public void onInput(MaterialDialog dialog, CharSequence input) {
                             // On FAB click, receive user input. Make sure the stock doesn't already exist
